@@ -13,7 +13,7 @@ import '../shared/styles/text_style.dart';
 
 class RegisterScreen extends StatelessWidget {
   RegisterScreen({Key? key}) : super(key: key);
-  ////////////////////////////////// variables
+///////////////////////////////////////////////////////////////////////////////////////////////// variables
   TextEditingController emailController = TextEditingController();
   TextEditingController firstNameController = TextEditingController();
   TextEditingController lastNameController = TextEditingController();
@@ -22,7 +22,7 @@ class RegisterScreen extends StatelessWidget {
   TextEditingController dateController = TextEditingController();
   var formKey = GlobalKey <FormState> ();
   RegisterCubit? registerCubit;
-  ///////////////////////////////// Build Method
+///////////////////////////////////////////////////////////////////////////////////////////////// Build Method
   @override
   Widget build(BuildContext context) {
     return BlocProvider <RegisterCubit> (
