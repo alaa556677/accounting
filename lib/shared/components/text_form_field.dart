@@ -1,65 +1,79 @@
 import 'package:flutter/material.dart';
-
 import '../styles/colors.dart';
 
-
-class DefaultTextField extends StatelessWidget {
-  DefaultTextField({
-    Key? key,
-    this.prefix,
-    this.hintText,
-    this.textInputType,
-    this.height,
-    this.suffix,
-    this.color,
-    this.controller,
-    this.borderRadius,
-    this.onSubmitted,
-    this.onTap,
-    this.validator,
-    this.obscureText = false
-  }) : super(key: key);
-
-  double? height;
+class DefaultTextForm extends StatelessWidget {
+  DefaultTextForm({super.key,
+    required this.label, required this.controller,
+    this.validator,this.keyboardType,this.onChange,
+    this.isEnabled, this.prefix, this.suffix,
+    this.onTap, this.readOnly = false});
+  String label;
+  String? hint;
+  TextEditingController controller;
+  String? Function(String?)? validator;
+  TextInputType? keyboardType;
+  Function(String)? onChange;
   Widget? prefix;
   Widget? suffix;
-  TextInputType? textInputType;
-  String? hintText;
-  double? width;
-  Color? color ;
-  TextEditingController? controller;
-  var onSubmitted;
-  var onTap;
-  double? borderRadius;
-  bool obscureText;
-  dynamic validator;
-
+  bool? isEnabled;
+  dynamic onTap;
+  bool readOnly = false;
   @override
   Widget build(BuildContext context) {
-    return Container(
-        width: width,
-        decoration: BoxDecoration(
-            color: color,
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(width: 1, color: silverColor)
-        ),
-        child: TextFormField(
-          onTap: onTap,
-          validator: validator,
-          onFieldSubmitted: onSubmitted,
-          controller: controller,
-          keyboardType: textInputType,
-          obscureText: obscureText,
-          style: TextStyle(color: silverColor,),
-          decoration: InputDecoration(
+    return SizedBox(
+      // height: 176,
+      child: TextFormField(
+        onChanged: onChange,
+        validator: validator ,
+        controller: controller,
+        keyboardType: keyboardType,
+        onTap: onTap,
+        enabled: isEnabled,
+        style: const TextStyle(color:Colors.black),
+        readOnly: readOnly,
+        decoration: InputDecoration(
+            contentPadding:  const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
             prefixIcon: prefix != null ? prefix : null,
             suffixIcon: suffix,
-            prefix: prefix != null ? null : SizedBox(width: 10),
-            border: InputBorder.none,
-            hintText: hintText,
-            hintStyle: TextStyle(fontSize: 12,fontWeight: FontWeight.w700, color: silverColor),
-          ),
-        )
+            errorStyle: const TextStyle(height: .8),
+            label: Padding(
+              padding:  const EdgeInsets.symmetric(horizontal: 0),
+              child: Text(
+                label,
+                style: TextStyle(
+                    color: textOnBoardingColor,
+                    fontFamily: "poppins",
+                    fontSize: 14,
+                    fontWeight: FontWeight.w300
+                ),
+              ),
+            ),
+            enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: const BorderSide(
+                  color: textOnBoardingColor,
+                )
+            ),
+            focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: const BorderSide(
+                    color: mainColorDark
+                )
+            ),
+            disabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: const BorderSide(
+                    color: textOnBoardingColor
+                )
+            ),
+            errorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: const BorderSide(
+                    color: Colors.red
+                )
+            )
+        ),
+      ),
     );
   }
 }

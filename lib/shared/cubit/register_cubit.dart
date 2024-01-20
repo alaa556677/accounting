@@ -1,4 +1,6 @@
 import 'dart:math';
+import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,7 +12,7 @@ import 'package:path/path.dart';
 class RegisterCubit extends Cubit <RegisterStates>{
   RegisterCubit() : super(InitialLoginState());
   static RegisterCubit get(context) => BlocProvider.of(context);
-
+/////////////////////////////////////////////////////////////////////////////////////////// upload image
   File? file;
   var imagePicker = ImagePicker();
   String? url;
@@ -34,6 +36,19 @@ class RegisterCubit extends Cubit <RegisterStates>{
       debugPrint('error is $e');
       emit(UploadImageRegisterError());
     }
+  }
+/////////////////////////////////////////////////////////////////////////////////////////// register
+  FirebaseAuth auth = FirebaseAuth.instance;
+  UserCredential? userCredential;
+  createUser(String email, password , BuildContext context) async {
+    emit(RegisterLoading());
+    userCredential = await auth.createUserWithEmailAndPassword( email: email, password: password
+    ).then((value) {
+      emit(RegisterSuccess());
+    }).catchError((e){
+      print("error ${e.toString()}");
+      emit(RegisterError(e.toString()));
+    });
   }
 
 }
